@@ -21,9 +21,9 @@ module tt_um_ReconfigRing_AKNoonan (
   CLKDIV LOWloopDiv(rst_n, uo_out[1], DIVL);
   CLKDIV HIGHloopDiv(rst_n, uo_out[2], DIVH);
   AND2 BEATLOWSPEED(DIVL,DIVH,DIVBeat);
-    uo_out[5] <= DIVL;
-    uo_out[6] <= DIVH;
-    uo_out[7] <= DIVBeat;
+  assign uo_out[5] = DIVL;
+  assign uo_out[6] = DIVH;
+  assign uo_out[7] = DIVBeat;
 
   // List all unused inputs to prevent warnings
   wire _unused = &{ena, uio_in[7:0], uio_out[7:0], uio_en[7:0], ui_in[7:1], 1'b0};
