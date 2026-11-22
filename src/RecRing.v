@@ -232,8 +232,8 @@ module Crossover3x3(
   
   
   wire BoLi, BoHi;//Bypass Loop Out, singal In
-  AND2(LoopL_IN, Freq,  BoLi);
-  AND2(LoopH_IN, Freqn, BoHi);
+  AND2 BL(LoopL_IN, Freq,  BoLi);
+  AND2 BH(LoopH_IN, Freqn, BoHi);
   
   OR2 Bout(BoLi,BoHi,LoopBypass_OUT); //outputs the bypass loop signal
   
