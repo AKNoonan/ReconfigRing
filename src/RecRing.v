@@ -206,7 +206,7 @@ module Crossover3x3(
   input wire LoopBypass_IN, //bypass loop in
   output wire LoopL_OUT, //low loop out
   output wire LoopH_OUT, //high loop out
-  output wire LoopBypass_OUT //bypass loop out 
+  output wire LoopBypass_OUT, //bypass loop out 
   input wire Freq, 
   input wire Freqn, //frequency input
   input wire Bypass, 
