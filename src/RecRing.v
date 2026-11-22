@@ -152,7 +152,7 @@ DFF BreakB(BreakFast,CLK,RST,BreakBy,BreakByn);
 assign Q = BreakBy;
 
 wire LoopL_out_break, LoopH_out_break, LoopBy_out_break;
-Crossover3x3 crossoverunit(LoopL_in, LoopH_in, LoopBy_in, LoopL_out_break, LoopH_out_break, LoopBy_out_break, speed, speedn, bypass, bypassn)
+    Crossover3x3 crossoverunit(LoopL_in, LoopH_in, LoopBy_in, LoopL_out_break, LoopH_out_break, LoopBy_out_break, speed, speedn, bypass, bypassn);
 AND2 ANDBreakL(LoopL_out_break,BreakSlown,LoopL_out);
 AND2 ANDBreakH(LoopH_out_break,BreakFastn,LoopH_out);
 AND2 ANDBreakB(LoopBy_out_break,BreakByn,LoopBy_out);
