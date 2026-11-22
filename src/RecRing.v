@@ -149,7 +149,7 @@ DFF bypasscfg(speed,CLK,RST,bypass,bypassn);
 DFF BreakS(bypass,CLK,RST,BreakSlow,BreakSlown);
 DFF BreakF(BreakSlow,CLK,RST,BreakFast,BreakFastn);
 DFF BreakB(BreakFast,CLK,RST,BreakBy,BreakByn);
-Q <= BreakBy;
+assign Q = BreakBy;
 
 wire LoopL_out_break, LoopH_out_break, LoopBy_out_break;
 Crossover3x3 crossoverunit(LoopL_in, LoopH_in, LoopBy_in, LoopL_out_break, LoopH_out_break, LoopBy_out_break, speed, speedn, bypass, bypassn)
@@ -180,7 +180,7 @@ module ConfigCrossover(
 wire speed, speedn, bypass, bypassn;
 DFF speedcfg(D,CLK,RST,speed,speedn);
 DFF bypasscfg(speed,CLK,RST,bypass,bypassn);
-Q <= bypass;
+assign Q = bypass;
 Crossover3x3 crossoverunit(LoopL_in, LoopH_in, LoopBy_in, LoopL_out, LoopH_out, LoopBy_out, speed, speedn, bypass, bypassn)
 
 endmodule 
@@ -266,7 +266,7 @@ module AND3(
   output wire Y //Output 
 );
 
-  Y <= (A) & (B) & (C);
+  assign Y = (A) & (B) & (C);
  
 endmodule 
 
@@ -277,7 +277,7 @@ module AND2(
   output wire Y //Output 
 );
 
-  Y <= (A) & (B);
+  assign Y = (A) & (B);
  
 endmodule 
 
@@ -290,7 +290,7 @@ module OR4(
   output wire Y //Output 
 );
 
-  Y <= (A) | (B) | (C) | (D);
+  assign Y = (A) | (B) | (C) | (D);
  
 endmodule 
 
@@ -301,6 +301,6 @@ module OR2(
   output wire Y //Output 
 ); 
 
-  Y <= (A) | (B);
+  assign Y = (A) | (B);
  
 endmodule 
