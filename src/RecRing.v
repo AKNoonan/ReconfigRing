@@ -181,7 +181,7 @@ wire speed, speedn, bypass, bypassn;
 DFF speedcfg(D,CLK,RST,speed,speedn);
 DFF bypasscfg(speed,CLK,RST,bypass,bypassn);
 assign Q = bypass;
-Crossover3x3 crossoverunit(LoopL_in, LoopH_in, LoopBy_in, LoopL_out, LoopH_out, LoopBy_out, speed, speedn, bypass, bypassn)
+    Crossover3x3 crossoverunit(LoopL_in, LoopH_in, LoopBy_in, LoopL_out, LoopH_out, LoopBy_out, speed, speedn, bypass, bypassn);
 
 endmodule 
 
