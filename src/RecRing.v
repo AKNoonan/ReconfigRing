@@ -249,12 +249,14 @@ module DFF(
 );
 always @(posedge CLK or negedge RST) 
 begin
- if(RST==1'b0)
+    if(RST==1'b0) begin
   Q <= 1'b0; 
-  Qn <= 1'b1;
- else 
+  Qn <= 1'b1; 
+    end
+ else begin
   Q <= D; 
   Qn <= ~D;
+ end
 end 
 endmodule 
 
