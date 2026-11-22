@@ -16,17 +16,17 @@ module tt_um_ReconfigRing_AKNoonan (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-  ReconRingOscCore CORE1(ui_in[0],clk,rst_n,uo_out[0],uo_out[1],uo_out[2],uo_out[3]);
+    ReconRingOscCore CORE1(ui_in[0],clk,rst_n,uo_out[0],uo_out[1],uo_out[2],uo_out[3],uo_out[4]);
   wire DIVL, DIVH, DIVBeat;
   CLKDIV LOWloopDiv(rst_n, uo_out[1], DIVL);
   CLKDIV HIGHloopDiv(rst_n, uo_out[2], DIVH);
   AND2 BEATLOWSPEED(DIVL,DIVH,DIVBeat);
-  uo_out[4] <= DIVL;
-  uo_out[5] <= DIVH;
-  uo_out[6] <= DIVBeat;
+    uo_out[5] <= DIVL;
+    uo_out[6] <= DIVH;
+    uo_out[7] <= DIVBeat;
 
   // List all unused inputs to prevent warnings
-  wire _unused = &{ena, uio_in[7:0], uio_out[7:0], uio_en[7:0], ui_in[7:1], uo_out[7], 1'b0};
+  wire _unused = &{ena, uio_in[7:0], uio_out[7:0], uio_en[7:0], ui_in[7:1], 1'b0};
 
 endmodule
 
@@ -53,7 +53,7 @@ endmodule
 //reset status is 00 ... 10x00's ... 00 000 or dont cross loops for speed and dont pull from bypass loop for all 12 stages
 //                          dont break Low Loop dont break High Loop dont break Bypass Loop
 //each crossover flip flop cascades to the next creating a bitstream of SBSBSBSBS of speed and bypass across the loop
-module ReconRingOscCore(D,CLK,RST,Q,PhaseA,PhaseB,BeatAB);
+module ReconRingOscCore(D,CLK,RST,Q,PhaseA,PhaseB,BypassOut,BeatAB);
 input D, CLK, RST; //Data, Clock, Reset, Loops inputs
 output PhaseA, PhaseB, BeatAB; //loop outputs
 output reg Q; //Q 
@@ -64,6 +64,7 @@ Stage1Ln <= ~Stage1L;
 
 PhaseA <= Stage1L;
 PhaseB <= Stage1H;
+BypassOut <= Stage1B;
 AND2 ANDBreakL(Stage1L,Stage1H,BeatAB);
 
 wire Stage2L, Stage2Ln, Stage2H, Stage2B, Stage2Q;
