@@ -16,7 +16,7 @@ module tt_um_ReconfigRing_AKNoonan (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-    ReconRingOscCore CORE1(ui_in[0],clk,rst_n,uo_out[0],uo_out[1],uo_out[2],uo_out[3],uo_out[4]);
+  ReconRingOscCore CORE1(ui_in[0],clk,rst_n,uo_out[0],uo_out[1],uo_out[2],uo_out[3],uo_out[4]);
   wire DIVL, DIVH, DIVBeat;
   CLKDIV LOWloopDiv(rst_n, uo_out[1], DIVL);
   CLKDIV HIGHloopDiv(rst_n, uo_out[2], DIVH);
@@ -31,9 +31,12 @@ module tt_um_ReconfigRing_AKNoonan (
 endmodule
 
 //Clock Divider
-module CLKDIV(RST, CIN, COUT);
-input RST, CIN; //RESET input, CLK input
-output COUT; //CLK output
+module CLKDIV(
+  input wire RST, //reset active low
+  input wire CIN, //clock input
+  output wire COUT //clock output
+);
+
 reg [15:0] CNT;
 always @(posedge CIN or negedge RST) 
 begin
@@ -53,10 +56,16 @@ endmodule
 //reset status is 00 ... 10x00's ... 00 000 or dont cross loops for speed and dont pull from bypass loop for all 12 stages
 //                          dont break Low Loop dont break High Loop dont break Bypass Loop
 //each crossover flip flop cascades to the next creating a bitstream of SBSBSBSBS of speed and bypass across the loop
-module ReconRingOscCore(D,CLK,RST,Q,PhaseA,PhaseB,BypassOut,BeatAB);
-input D, CLK, RST; //Data, Clock, Reset, Loops inputs
-output PhaseA, PhaseB, BeatAB; //loop outputs
-output reg Q; //Q 
+module ReconRingOscCore(
+input wire D, //bitstrem in
+input wire CLK, //bitstream clock
+input wire RST, //reset active lop
+output reg Q, //bitstream out
+output PhaseA, //loop output
+output PhaseB, //loop output
+output BypassOut,//bypass output
+output BeatAB //loop beat frequency
+);
 
 wire Stage1L, Stage1Ln, Stage1H, Stage1B, Stage1Q;
 ConfigCrossover Stage1(D,CLK,RST,Stage1Q,Stage12Ln,Stage12H,Stage12B,Stage1L,Stage1H,Stage1B);
@@ -121,10 +130,18 @@ endmodule
 //reset status is 00 000 or dont cross loops for speed and dont pull from bypass loop
 //                          dont break Low Loop dont break High Loop dont break Bypass Loop
 //each crossover flip flop cascades to the next creating a bitstream of SBSBSBSBS of speed and bypass across the loop
-module BreakConfigCrossover(D,CLK,RST,Q,LoopL_in,LoopH_in,LoopBy_in,LoopL_out,LoopH_out,LoopBy_out);
-input D, CLK, RST, LoopL_in, LoopH_in, LoopBy_in; //Data, Clock, Reset, Loops inputs
-output LoopL_out, LoopH_out, LoopBy_out; //loop outputs
-output reg Q; //Q 
+module BreakConfigCrossover(
+  input wire D, //bitstream in
+  input wire CLK, //bitstream clock
+  input wire RST, //reset active low
+  output reg Q, //bitstream data out
+  input wire LoopL_in, //low speed loop input
+  input wire LoopH_in, //high speed loop input
+  input wire LoopBy_in, //bypass loop input
+  output wire LoopL_out, //low speed loop output
+  output wire LoopH_out, //High speed loop output
+  output wire LoopBy_out //bupass loop output 
+);
 
 wire speed, speedn, bypass, bypassn, BreakSlow, BreakSlown, BreakFast, BreakFastn, BreakBy, BreakByn;
 DFF speedcfg(D,CLK,RST,speed,speedn);
@@ -147,10 +164,18 @@ endmodule
 //negetive edge REST
 //reset status is 00 or dont cross loops for speed and dont pull from bypass loop
 //each crossover flip flop cascades to the next creating a bitstream of SBSBSBSBS of speed and bypass across the loop
-module ConfigCrossover(D,CLK,RST,Q,LoopL_in,LoopH_in,LoopBy_in,LoopL_out,LoopH_out,LoopBy_out);
-input D, CLK, RST, LoopL_in, LoopH_in, LoopBy_in; //Data, Clock, Reset, Loops inputs
-output LoopL_out, LoopH_out, LoopBy_out; //loop outputs
-output reg Q; //Q 
+module ConfigCrossover(
+  input wire D, //bitstream in
+  input wire CLK, //bitstream clock
+  input wire RST, //reset active low
+  output reg Q, //bitstream data out
+  input wire LoopL_in, //low speed loop input
+  input wire LoopH_in, //high speed loop input
+  input wire LoopBy_in, //bypass loop input
+  output wire LoopL_out, //low speed loop output
+  output wire LoopH_out, //High speed loop output
+  output wire LoopBy_out //bupass loop output 
+);
 
 wire speed, speedn, bypass, bypassn;
 DFF speedcfg(D,CLK,RST,speed,speedn);
@@ -175,9 +200,18 @@ endmodule
 //            LoopH input maps to LoopH out
 //  Freq LOW LoopL input maps to LoopL out
 //           Bypass input maps to LoopH out 
-module Crossover3x3(LoopL_IN, LoopH_IN, LoopBypass_IN, LoopL_OUT, LoopH_OUT, LoopBypass_OUT, Freq, Freqn, Bypass, Bypassn);
-input LoopL_IN, LoopH_IN, LoopBypass_IN, Freq, Bypass; //Logic Input
-output LoopL_OUT, LoopH_OUT, LoopBypass_OUT; //Output 
+module Crossover3x3(
+  input wire LoopL_IN, //low loop in
+  input wire LoopH_IN, //high loop in
+  input wire LoopBypass_IN, //bypass loop in
+  output wire LoopL_OUT, //low loop out
+  output wire LoopH_OUT, //high loop out
+  output wire LoopBypass_OUT //bypass loop out 
+  input wire Freq, 
+  input wire Freqn, //frequency input
+  input wire Bypass, 
+  input wire Bypassn //bypass Input
+);
   
   wire LoLiBl, LoHiBl, LoBiBh, LoLiBh;//Low Loop Out, singal In, Bypass State High/Low
   AND3 LLBn(LoopL_IN,     Freq,  Bypassn, LoLiBl);
@@ -206,10 +240,13 @@ output LoopL_OUT, LoopH_OUT, LoopBypass_OUT; //Output
 endmodule 
 
 //D Flip Flop
-module DFF(D,CLK,RST,Q,Qn);
-input D, CLK, RST; //Data, Clock, Reset
-output reg Q; //Q 
-output reg Qn; //Q not
+module DFF(
+  input wire D, //data in
+  input wire CLK, //clock rising edge
+  input wire RST, //reset active low
+  output reg Q, //data out
+  output reg Qn //inverted data out
+);
 always @(posedge CLK or negedge RST) 
 begin
  if(RST==1'b0)
@@ -222,36 +259,47 @@ end
 endmodule 
 
 //3 Input AND
-module AND3(A,B,C,Y);
-input A, B, C; //Logic Input
-output Y; //Output 
+module AND3(
+  input wire A, 
+  input wire B, 
+  input wire C, //Logic Input
+  output wire Y //Output 
+);
 
   Y <= (A) & (B) & (C);
  
 endmodule 
 
 //2 Input AND
-module AND2(A,B,Y);
-input A, B; //Logic Input
-output Y; //Output 
+module AND2(
+  input wire A, 
+  input wire B, //Logic Input
+  output wire Y //Output 
+);
 
   Y <= (A) & (B);
  
 endmodule 
 
 //4 Input OR
-module OR4(A,B,C,D,Y);
-input A, B, C, D; //Logic Input
-output Y; //Output 
+module OR4(
+  input wire A, 
+  input wire B, 
+  input wire C, 
+  input wire D, //Logic Input
+  output wire Y //Output 
+);
 
   Y <= (A) | (B) | (C) | (D);
  
 endmodule 
 
 //2 Input OR
-module OR2(A,B,Y); 
-input A, B; //Logic Input
-output Y; //Output 
+module OR2(
+  input wire A, 
+  input wire B, //Logic Input
+  output wire Y //Output 
+); 
 
   Y <= (A) | (B);
  
