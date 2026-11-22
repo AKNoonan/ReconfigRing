@@ -69,58 +69,58 @@ output BeatAB //loop beat frequency
 
 wire Stage1L, Stage1Ln, Stage1H, Stage1B, Stage1Q;
 ConfigCrossover Stage1(D,CLK,RST,Stage1Q,Stage12Ln,Stage12H,Stage12B,Stage1L,Stage1H,Stage1B);
-Stage1Ln <= ~Stage1L;
+assign Stage1Ln = ~Stage1L;
 
-PhaseA <= Stage1L;
-PhaseB <= Stage1H;
-BypassOut <= Stage1B;
+assign PhaseA = Stage1L;
+assign PhaseB = Stage1H;
+assign BypassOut = Stage1B;
 AND2 ANDBreakL(Stage1L,Stage1H,BeatAB);
 
 wire Stage2L, Stage2Ln, Stage2H, Stage2B, Stage2Q;
 ConfigCrossover Stage2(Stage1Q,CLK,RST,Stage2Q,Stage1Ln,Stage1H,Stage1B,Stage2L,Stage2H,Stage2B);
-Stage2Ln <= ~Stage2L;
+assign Stage2Ln = ~Stage2L;
 
 wire Stage3L, Stage3Ln, Stage3H, Stage3B, Stage3Q;
 ConfigCrossover Stage3(Stage2Q,CLK,RST,Stage3Q,Stage2Ln,Stage2H,Stage2B,Stage3L,Stage3H,Stage3B);
-Stage3Ln <= ~Stage3L;
+assign Stage3Ln = ~Stage3L;
 
 wire Stage4L, Stage4Ln, Stage4H, Stage4B, Stage4Q;
 ConfigCrossover Stage4(Stage3Q,CLK,RST,Stage4Q,Stage3Ln,Stage3H,Stage3B,Stage4L,Stage4H,Stage4B);
-Stage4Ln <= ~Stage4L;
+assign Stage4Ln = ~Stage4L;
 
 wire Stage5L, Stage5Ln, Stage5H, Stage5B, Stage5Q;
 ConfigCrossover Stage5(Stage4Q,CLK,RST,Stage5Q,Stage4Ln,Stage4H,Stage4B,Stage5L,Stage5H,Stage5B);
-Stage5Ln <= ~Stage5L;
+assign Stage5Ln = ~Stage5L;
 
 wire Stage6L, Stage6Ln, Stage6H, Stage6B, Stage6Q;
 ConfigCrossover Stage6(Stage5Q,CLK,RST,Stage6Q,Stage5Ln,Stage5H,Stage5B,Stage6L,Stage6H,Stage6B);
-Stage6Ln <= ~Stage6L;
+assign Stage6Ln = ~Stage6L;
 
 wire Stage7L, Stage7Ln, Stage7H, Stage7B, Stage7Q;
 ConfigCrossover Stage7(Stage6Q,CLK,RST,Stage7Q,Stage6Ln,Stage6H,Stage6B,Stage7L,Stage7H,Stage7B);
-Stage7Ln <= ~Stage7L;
+assign Stage7Ln = ~Stage7L;
 
 wire Stage8L, Stage8Ln, Stage8H, Stage8B, Stage8Q;
 ConfigCrossover Stage8(Stage7Q,CLK,RST,Stage8Q,Stage7Ln,Stage7H,Stage7B,Stage8L,Stage8H,Stage8B);
-Stage8Ln <= ~Stage8L;
+assign Stage8Ln = ~Stage8L;
 
 wire Stage9L, Stage9Ln, Stage9H, Stage9B, Stage9Q;
 ConfigCrossover Stage9(Stage8Q,CLK,RST,Stage9Q,Stage8Ln,Stage8H,Stage8B,Stage9L,Stage9H,Stage9B);
-Stage9Ln <= ~Stage9L;
+assign Stage9Ln = ~Stage9L;
 
 wire Stage10L, Stage10Ln, Stage10H, Stage10B, Stage10Q;
 ConfigCrossover Stage10(Stage9Q,CLK,RST,Stage10Q,Stage9Ln,Stage9H,Stage9B,Stage10L,Stage10H,Stage10B);
-Stage10Ln <= ~Stage10L;
+assign Stage10Ln = ~Stage10L;
 
 wire Stage11L, Stage11Ln, Stage11H, Stage11B, Stage11Q;
 ConfigCrossover Stage11(Stage10Q,CLK,RST,Stage11Q,Stage10Ln,Stage10H,Stage10B,Stage11L,Stage11H,Stage11B);
-Stage11Ln <= ~Stage11L;
+assign Stage11Ln = ~Stage11L;
 
 wire Stage12L, Stage12Ln, Stage12H, Stage12B, Stage12Q;
 BreakConfigCrossover Stage12(Stage11Q,CLK,RST,Stage12Q,Stage11Ln,Stage11H,Stage11B,Stage12L,Stage12H,Stage12B);
-Stage12Ln <= ~Stage12L;
+assign Stage12Ln = ~Stage12L;
 
-Q <= Stage12Q;
+assign Q = Stage12Q;
 
 endmodule 
 
