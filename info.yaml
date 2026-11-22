@@ -17,14 +17,13 @@ project:
   # Source files must be in ./src and you must list each source file separately, one per line.
   # Don't forget to also update `PROJECT_SOURCES` in test/Makefile.
   source_files:
-    - "project.v"
     - "RecRing.v"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 # This section is for the datasheet/website. Use descriptive names (e.g., RX, TX, MOSI, SCL, SEG_A, etc.).
 pinout:
   # Inputs
-  ui[0]: ""
+  ui[0]: "CFG Bitstream In CLOCKED"
   ui[1]: ""
   ui[2]: ""
   ui[3]: ""
@@ -34,14 +33,14 @@ pinout:
   ui[7]: ""
 
   # Outputs
-  uo[0]: ""
-  uo[1]: ""
-  uo[2]: ""
-  uo[3]: ""
-  uo[4]: ""
-  uo[5]: ""
-  uo[6]: ""
-  uo[7]: ""
+  uo[0]: "CFG Bitstream OUT CLOCKED"
+  uo[1]: "Low Speed Loop Out"
+  uo[2]: "High Speed Loop Out"
+  uo[3]: "Bypass Loop Out"
+  uo[4]: "High/Low Beat Frequency"
+  uo[5]: "Low Speed divided down 4096"
+  uo[6]: "High Speed divided down 4096"
+  uo[7]: "High/Low Beat divided down 4096"
 
   # Bidirectional pins
   uio[0]: ""
