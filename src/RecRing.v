@@ -33,12 +33,12 @@ endmodule
 //Clock Divider
 module CLKDIV(
   input wire RST, //reset active low
-  input wire CIN, //clock input
-  output wire COUT //clock output
+  input wire ClkIN, //clock input
+  output wire ClkOUT //clock output
 );
 
 reg [15:0] CNT;
-always @(posedge CIN or negedge RST) 
+    always @(posedge ClkIN or negedge RST) 
 begin
  if(RST==1'b0)
   CNT <= 16'b0; 
@@ -46,7 +46,7 @@ begin
   CNT <= CNT + 16'd1;
   if(CNT == 16'd4096)
    CNT <= 0; 
-   COUT <= ~COUT;
+  assign ClkOUT = ~ClkOUT;
 end 
 endmodule 
 
