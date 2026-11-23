@@ -45,7 +45,7 @@ module CLKDIV(
     reg [15:0] CNT;
     always @(posedge ClkIN or negedge RST) 
         begin
-        if(RST) begin
+        if(~RST) begin
             CNT <= 16'd0;
             ClkOUT <= 1'b0;
         end else begin
@@ -255,7 +255,7 @@ module DFF(
 );
     always @(posedge CLK or negedge RST) 
         begin
-        if(RST) begin
+        if(~RST) begin
             Q <= 1'b0; 
             Qn <= 1'b1; 
         end
