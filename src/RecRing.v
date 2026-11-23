@@ -46,7 +46,7 @@ module CLKDIV(
     always @(posedge ClkIN or negedge RST) 
         begin
         if(RST) begin
-            CNT <= 16'd0;
+            CNT <= 16'b0;
         end else begin
             CNT <= CNT + 16'd1;
             if(CNT == 16'd4096)
