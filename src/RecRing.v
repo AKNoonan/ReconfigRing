@@ -26,7 +26,11 @@ module tt_um_ReconfigRing_AKNoonan (
   assign uo_out[7] = DIVBeat;
 
   // List all unused inputs to prevent warnings
-    wire _unused = &{ena, uio_in[7:0], uio_out[7:0], uio_oe[7:0], ui_in[7:1], 1'b0};
+    assign uio_in[7:0] = 8'b0;
+    assign uio_out[7:0] = 8'b0;
+    assign ui_in[7:1] = 7'b0;
+    assign uio_oe[7:0] = 8'b0;
+    assign ena = 1'b0;
 
 endmodule
 
