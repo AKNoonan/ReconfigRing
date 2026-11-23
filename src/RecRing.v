@@ -34,7 +34,7 @@ endmodule
 module CLKDIV(
   input wire RST, //reset active low
   input wire ClkIN, //clock input
-  output wire ClkOUT //clock output
+  output reg ClkOUT //clock output
 );
 
 reg [15:0] CNT;
