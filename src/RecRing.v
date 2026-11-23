@@ -66,10 +66,8 @@ output PhaseB, //loop output
 output BypassOut,//bypass output
 output BeatAB //loop beat frequency
 );
-    
-/* verilator lint_off UNOPTFLAT */
+
 wire Stage1L, Stage1Ln, Stage1H, Stage1B, Stage1Q;
-/* verilator lint_on UNOPTFLAT */
 ConfigCrossover Stage1(D,CLK,RST,Stage1Q,Stage12Ln,Stage12H,Stage12B,Stage1L,Stage1H,Stage1B);
 assign Stage1Ln = ~Stage1L;
 
@@ -174,9 +172,11 @@ module ConfigCrossover(
   input wire LoopL_in, //low speed loop input
   input wire LoopH_in, //high speed loop input
   input wire LoopBy_in, //bypass loop input
+    /* verilator lint_off UNOPTFLAT */
   output wire LoopL_out, //low speed loop output
   output wire LoopH_out, //High speed loop output
   output wire LoopBy_out //bupass loop output 
+    /* verilator lint_on UNOPTFLAT */
 );
 
 wire speed, speedn, bypass, bypassn;
