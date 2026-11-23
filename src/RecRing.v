@@ -66,8 +66,10 @@ output PhaseB, //loop output
 output BypassOut,//bypass output
 output BeatAB //loop beat frequency
 );
-
+    
+/* verilator lint_off UNOPTFLAT */
 wire Stage1L, Stage1Ln, Stage1H, Stage1B, Stage1Q;
+/* verilator lint_on UNOPTFLAT */
 ConfigCrossover Stage1(D,CLK,RST,Stage1Q,Stage12Ln,Stage12H,Stage12B,Stage1L,Stage1H,Stage1B);
 assign Stage1Ln = ~Stage1L;
 
