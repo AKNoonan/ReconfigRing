@@ -46,15 +46,16 @@ module CLKDIV(
     always @(posedge ClkIN or negedge RST) 
         begin
         if(RST) begin
-            CNT <= 16'b0;
+            CNT <= 16'd0;
             ClkOUT <= 1'b0;
         end else begin
             CNT <= CNT + 16'd1;
-            if(CNT == 16'd4096)
+            if(CNT == 16'd4096) begin
                 CNT <= 0; 
-            ClkOUT <= ~ClkOUT;
-        end
+                ClkOUT <= ~ClkOUT;
+            end
         end 
+        end
 endmodule 
 
 //ReconRing with break N=12 stages 
