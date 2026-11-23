@@ -49,10 +49,11 @@ module CLKDIV(
             CNT <= 16'd0;
             ClkOUT <= 1'b0;
         end else begin
-            CNT <= CNT + 16'd1;
             if(CNT == 16'd4096) begin
                 CNT <= 0; 
                 ClkOUT <= ~ClkOUT;
+            end else begin
+                CNT <= CNT + 16'd1;
             end
         end 
         end
