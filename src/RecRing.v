@@ -66,7 +66,7 @@ module ReconRingOscCore(
     input wire D, //bitstrem in
     input wire CLK, //bitstream clock
     input wire RST, //reset active lop
-    output reg Q, //bitstream out
+    output wire Q, //bitstream out
     output PhaseA, //loop output
     output PhaseB, //loop output
     output BypassOut,//bypass output
@@ -138,7 +138,7 @@ module BreakConfigCrossover(
     input wire D, //bitstream in
     input wire CLK, //bitstream clock
     input wire RST, //reset active low
-    output reg Q, //bitstream data out
+    output wire Q, //bitstream data out
     input wire LoopL_in, //low speed loop input
     input wire LoopH_in, //high speed loop input
     input wire LoopBy_in, //bypass loop input
@@ -172,7 +172,7 @@ module ConfigCrossover(
     input wire D, //bitstream in
     input wire CLK, //bitstream clock
     input wire RST, //reset active low
-    output reg Q, //bitstream data out
+    output wire Q, //bitstream data out
     input wire LoopL_in, //low speed loop input
     input wire LoopH_in, //high speed loop input
     input wire LoopBy_in, //bypass loop input
