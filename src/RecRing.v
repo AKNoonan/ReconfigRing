@@ -46,7 +46,7 @@ begin
   CNT <= CNT + 16'd1;
   if(CNT == 16'd4096)
    CNT <= 0; 
-  assign ClkOUT = ~ClkOUT;
+  ClkOUT <= ~ClkOUT;
 end 
 endmodule 
 
