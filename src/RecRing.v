@@ -47,15 +47,16 @@ module CLKDIV(
 );
 
 reg [15:0] CNT;
-    always @(negedge ClkIN or negedge RST) 
+    always @(posedge ClkIN or negedge RST) 
 begin
- if(RST==1'b0)
+    if(RST) begin
   CNT <= 16'b0; 
- else 
+        end else begin
   CNT <= CNT + 16'd1;
   if(CNT == 16'd4096)
    CNT <= 0; 
   ClkOUT <= ~ClkOUT;
+        end
 end 
 endmodule 
 
@@ -258,9 +259,9 @@ module DFF(
   output reg Q, //data out
   output reg Qn //inverted data out
 );
-    always @(negedge CLK or negedge RST) 
+    always @(posedge CLK or negedge RST) 
 begin
-    if(RST==1'b0) begin
+    if(RST) begin
   Q <= 1'b0; 
   Qn <= 1'b1; 
     end
