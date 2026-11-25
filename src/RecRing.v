@@ -75,9 +75,20 @@ module ReconRingOscCore(
     output BypassOut,//bypass output
     output BeatAB //loop beat frequency
 );
+    //added to break loop virtually for simulator 
+    wire TOPLoopL, TOPLoopH, TOPLoopLB;
+    `ifdef SIM
+       assign #1 TOPLoopL = Stage12Ln;
+       assign #1 TOPLoopH = Stage12H;
+       assign #1 TOPLoopB = Stage12B;
+    `else
+       assign TOPLoopL = Stage12Ln;
+       assign TOPLoopH = Stage12H;
+       assign TOPLoopB = Stage12B;
+    `endif
     
     wire Stage1L, Stage1Ln, Stage1H, Stage1B, Stage1Q;
-    ConfigCrossover Stage1(D,CLK,RST,Stage1Q,Stage12Ln,Stage12H,Stage12B,Stage1L,Stage1H,Stage1B);
+    ConfigCrossover Stage1(D,CLK,RST,Stage1Q,TOPLoopL,TOPLoopH,TOPLoopB,Stage1L,Stage1H,Stage1B);
     assign Stage1Ln = ~Stage1L;
     
     assign PhaseA = Stage1L;
