@@ -79,7 +79,6 @@ module ReconRingOscCore(
     output BeatAB //loop beat frequency
 );
     //added to break loop virtually for simulator 
-    /* verilator lint_off UNOPTFLAT */
     wire TOPLoopL, TOPLoopH, TOPLoopB;
     `ifdef SIM
        assign #1 TOPLoopL = Stage12Ln & LOOPL_EN;
@@ -90,7 +89,6 @@ module ReconRingOscCore(
        assign TOPLoopH = Stage12H & LOOPH_EN;
        assign TOPLoopB = Stage12B & LOOPB_EN;
     `endif
-    /* verilator lint_on UNOPTFLAT */
     
     wire Stage1L, Stage1Ln, Stage1H, Stage1B, Stage1Q;
     ConfigCrossover Stage1(D,CLK,RST,Stage1Q,TOPLoopL,TOPLoopH,TOPLoopB,Stage1L,Stage1H,Stage1B);
@@ -195,9 +193,11 @@ module ConfigCrossover(
     input wire LoopL_in, //low speed loop input
     input wire LoopH_in, //high speed loop input
     input wire LoopBy_in, //bypass loop input
+    /* verilator lint_off UNOPTFLAT */
     output wire LoopL_out, //low speed loop output
     output wire LoopH_out, //High speed loop output
     output wire LoopBy_out //bupass loop output 
+    /* verilator lint_on UNOPTFLAT */
 );
     
     wire speed, speedn, bypass, bypassn;
