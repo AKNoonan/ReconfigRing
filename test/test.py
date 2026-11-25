@@ -29,7 +29,6 @@ async def test_project(dut):
     dut.rst_n.value = 1
 
     dut._log.info("Testing Bitstream FLIP FLOPS")
-    dut._log.info(str(dir(dut.uo_out.value)))
 
     testpattern = "101100011100001111000001111" + "000000000000000000000000000"
     outpattern = ""
@@ -56,12 +55,12 @@ async def test_project(dut):
     configs = ["100010000000000000000000000","100000001000000000000000000","100000000000100000000000000","100000000000000010000000000","100000000000000000001000000"]
     for testpattern in configs:
         dut._log.info("Loading Config Pattern:"+testpattern)
-        clk.start()
+        dut.clk.start()
         for b in range(27):
             bit = testpattern[b]
             dut.ui_in.value = int(bit)
             await ClockCycles(dut.clk, 1)
-        clk.stop()
+        dut.clk.stop()
             
         dut._log.info("Enabling Rings")
         dut.ui_in.value[1] = 1
