@@ -8,6 +8,7 @@ from cocotb.triggers import ClockCycles
 
 @cocotb.test()
 async def test_project(dut):
+    dut._log.info("~~~Reconfigureable Ring TEST~~~")
     dut._log.info("Start")
 
     # Set the clock period to 10 us (100 KHz)
@@ -25,7 +26,33 @@ async def test_project(dut):
     await ClockCycles(dut.clk, 1)
     dut.rst_n.value = 1
 
-    dut._log.info("Test project behavior")
+    dut._log.info("Testing Bitstream FLIP FLOPS")
+    dut._log.info(str(dir(dut.uo_out.value)))
+
+    testpattern = "101100011100001111000001111" + "000000000000000000000000000"
+    outpattern = ""
+    dut._log.info("Input Test Pattern:"+testpattern)
+
+    for b in range(54):
+        bit = testpattern[b]
+        dut.ui_in.value = int(bit)
+        await ClockCycles(dut.clk, 1)
+        await Timer(1, unit="ms")
+        bitout = str(dut.uo_out.value & 1)
+        outpattern.append(bitout)
+
+    dut._log.info("Input Test Pattern:"+outpattern)
+    
+    testpattern = "100010000000000000000000000"
+    dut._log.info("Input Config Pattern:"+testpattern)
+
+    for b in range(27):
+        bit = testpattern[b]
+        dut.ui_in.value = int(bit)
+        await ClockCycles(dut.clk, 1)
+        await Timer(1, unit="ms")
+        bitout = str(dut.uo_out.value & 1)
+        outpattern.append(bitout)
 
     # Set the input values you want to test
     dut.ui_in.value = 0
