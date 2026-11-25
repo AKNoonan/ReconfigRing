@@ -15,7 +15,7 @@ module tt_um_ReconfigRing_AKNoonan (
     input  wire       clk,      // clock
     input  wire       rst_n     // reset_n - low to reset
 );
-    ReconRingOscCore CORE1(ui_in[0],clk,rst_n,uo_out[0],uo_out[1],uo_out[2],uo_out[3],uo_out[4]);
+    ReconRingOscCore CORE1(ui_in[0],ui_in[1],ui_in[2],ui_in[3],clk,rst_n,uo_out[0],uo_out[1],uo_out[2],uo_out[3],uo_out[4]);
     wire DIVL, DIVH, DIVBeat;
     CLKDIV LOWloopDiv(rst_n, uo_out[1], DIVL);
     CLKDIV HIGHloopDiv(rst_n, uo_out[2], DIVH);
@@ -30,7 +30,7 @@ module tt_um_ReconfigRing_AKNoonan (
     logic _unused_inp;
     assign _unused_ena = &{1'b0, ena};
     assign _unused_ioin = &{8'b0, uio_in[7:0]};
-    assign _unused_inp = &{7'b0, ui_in[7:1]};
+    assign _unused_inp = &{4'b0, ui_in[7:4]};
 
     assign uio_out = 8'b0;
     assign uio_oe = 8'b0;
@@ -67,6 +67,9 @@ endmodule
 //each crossover flip flop cascades to the next creating a bitstream of SBSBSBSBS of speed and bypass across the loop
 module ReconRingOscCore(
     input wire D, //bitstrem in
+    input wire LOOPL_EN, 
+    input wire LOOPH_EN, 
+    input wire LOOPB_EN, 
     input wire CLK, //bitstream clock
     input wire RST, //reset active lop
     output wire Q, //bitstream out
@@ -78,13 +81,13 @@ module ReconRingOscCore(
     //added to break loop virtually for simulator 
     wire TOPLoopL, TOPLoopH, TOPLoopB;
     `ifdef SIM
-       assign #1 TOPLoopL = Stage12Ln;
-       assign #1 TOPLoopH = Stage12H;
-       assign #1 TOPLoopB = Stage12B;
+       assign #1 TOPLoopL = Stage12Ln & LOOPL_EN;
+       assign #1 TOPLoopH = Stage12H & LOOPH_EN;
+       assign #1 TOPLoopB = Stage12B & LOOPB_EN;
     `else
-       assign TOPLoopL = Stage12Ln;
-       assign TOPLoopH = Stage12H;
-       assign TOPLoopB = Stage12B;
+       assign TOPLoopL = Stage12Ln & LOOPL_EN;
+       assign TOPLoopH = Stage12H & LOOPH_EN;
+       assign TOPLoopB = Stage12B & LOOPB_EN;
     `endif
     
     wire Stage1L, Stage1Ln, Stage1H, Stage1B, Stage1Q;
