@@ -193,11 +193,9 @@ module ConfigCrossover(
     input wire LoopL_in, //low speed loop input
     input wire LoopH_in, //high speed loop input
     input wire LoopBy_in, //bypass loop input
-    /* verilator lint_off UNOPTFLAT */
     output wire LoopL_out, //low speed loop output
     output wire LoopH_out, //High speed loop output
     output wire LoopBy_out //bupass loop output 
-    /* verilator lint_on UNOPTFLAT */
 );
     
     wire speed, speedn, bypass, bypassn;
@@ -227,9 +225,11 @@ module Crossover3x3(
     input wire LoopL_IN, //low loop in
     input wire LoopH_IN, //high loop in
     input wire LoopBypass_IN, //bypass loop in
+    /* verilator lint_off UNOPTFLAT */
     output wire LoopL_OUT, //low loop out
     output wire LoopH_OUT, //high loop out
     output wire LoopBypass_OUT, //bypass loop out 
+    /* verilator lint_on UNOPTFLAT */
     input wire Freq, 
     input wire Freqn, //frequency input
     input wire Bypass, 
