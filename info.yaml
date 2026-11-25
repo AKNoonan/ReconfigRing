@@ -24,9 +24,9 @@ project:
 pinout:
   # Inputs
   ui[0]: "CFG Bitstream In CLOCKED"
-  ui[1]: ""
-  ui[2]: ""
-  ui[3]: ""
+  ui[1]: "Enable SLOW"
+  ui[2]: "Enable FAST"
+  ui[3]: "Enable BYPASS"
   ui[4]: ""
   ui[5]: ""
   ui[6]: ""
