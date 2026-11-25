@@ -5,7 +5,7 @@ import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
 from cocotb.triggers import Timer
-from cocotb.triggers import RisingEdge
+from cocotb.triggers import ValueChange
 from cocotb.utils import get_sim_time
 
 @cocotb.test()
@@ -42,7 +42,7 @@ async def test_project(dut):
         #await Timer(10, unit="ns")
         bitout = str(dut.uo_out.value[0])
         outpattern = outpattern + bitout
-        dut._log.info("Input:output " + bit + ":" + bitout)
+        #dut._log.info("Input:output " + bit + ":" + bitout)
 
     dut._log.info("Output Test Pattern:" + outpattern)
 
