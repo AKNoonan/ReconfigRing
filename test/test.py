@@ -82,6 +82,7 @@ async def test_project(dut):
                 start = get_sim_time(unit="ns")
                 dut._log.info("uo_out byte:" + str(dut.uo_out.value))
                 dut._log.info("loop bit changed at:"+str(start))
+                loopbitchange = True
             if(loopcnt%100==0 & loopcnt > 100):
                 dut._log.info("uo_out byte:" + str(dut.uo_out.value))
         
@@ -96,6 +97,7 @@ async def test_project(dut):
                 end = get_sim_time(unit="ns")
                 dut._log.info("uo_out byte:" + str(dut.uo_out.value))
                 dut._log.info("loop bit changed at:"+str(start))
+                loopbitchange = True
             if(loopcnt%100==0 & loopcnt > 100):
                 dut._log.info("uo_out byte:" + str(dut.uo_out.value))
         
