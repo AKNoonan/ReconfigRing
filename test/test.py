@@ -48,23 +48,33 @@ async def test_project(dut):
 
     assert testpattern.replace("000000000000000000000000000","") == outpattern.replace("000000000000000000000000000","")
 
-    
-    testpattern = "100010000000000000000000000"
-    dut._log.info("Loading Config Pattern:"+testpattern)
-
-    for b in range(27):
-        bit = testpattern[b]
-        dut.ui_in.value = int(bit)
-        await ClockCycles(dut.clk, 1)
-
-    dut._log.info("Enabling Rings")
-    dut.ui_in.value[1] = 1
-    dut._log.info("Waiting For Clock Period")
-    await ValueChange(dut.uo_out)
-    start = get_sim_time(units="ns")
-    await ValueChange(dut.uo_out)
-    end = get_sim_time(units="ns")
-    dut._log.info("Time:" + str(end-start)+"ns")
+    #10 00 10 00 00 00 00 00 00 00 00 00 000
+    #10 00 00 00 10 00 00 00 00 00 00 00 000
+    #10 00 00 00 00 00 10 00 00 00 00 00 000
+    #10 00 00 00 00 00 00 00 10 00 00 00 000
+    #10 00 00 00 00 00 00 00 00 00 10 00 000
+    configs = ["100010000000000000000000000","100000001000000000000000000","100000000000100000000000000","100000000000000010000000000","100000000000000000001000000"]
+    for testpattern in configs:
+        dut._log.info("Loading Config Pattern:"+testpattern)
+        for b in range(27):
+            bit = testpattern[b]
+            dut.ui_in.value = int(bit)
+            await ClockCycles(dut.clk, 1)
+            
+        dut._log.info("Enabling Rings")
+        dut.ui_in.value[1] = 1
+        dut._log.info("Waiting For Clock Period")
+        
+        await ValueChange(dut.uo_out)
+        dut._log.info("uo_out byte:" + str(dut.uo_out.value))
+        start = get_sim_time(unit="ns")
+        
+        await ValueChange(dut.uo_out)
+        dut._log.info("uo_out byte:" + str(dut.uo_out.value))
+        end = get_sim_time(unit="ns")
+        
+        dut._log.info("Time:" + str(end-start)+"ns")
+        dut.ui_in.value[1] = 0
     
 
     # Set the input values you want to test
