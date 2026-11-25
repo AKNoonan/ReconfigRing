@@ -38,7 +38,7 @@ async def test_project(dut):
         dut.ui_in.value = int(bit)
         await ClockCycles(dut.clk, 1)
         #await Timer(10, unit="ns")
-        bitout = str(dut.uo_out.value & 1)
+        bitout = str(dut.uo_out.value[0])
         outpattern.append(bitout)
         dut._log.info("Input:output " + bit + ":" + bitout)
 
