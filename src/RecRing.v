@@ -76,7 +76,7 @@ module ReconRingOscCore(
     output BeatAB //loop beat frequency
 );
     //added to break loop virtually for simulator 
-    wire TOPLoopL, TOPLoopH, TOPLoopLB;
+    wire TOPLoopL, TOPLoopH, TOPLoopB;
     `ifdef SIM
        assign #1 TOPLoopL = Stage12Ln;
        assign #1 TOPLoopH = Stage12H;
