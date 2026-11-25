@@ -79,6 +79,7 @@ module ReconRingOscCore(
     output BeatAB //loop beat frequency
 );
     //added to break loop virtually for simulator 
+    /* verilator lint_off UNOPTFLAT */
     wire TOPLoopL, TOPLoopH, TOPLoopB;
     `ifdef SIM
        assign #1 TOPLoopL = Stage12Ln & LOOPL_EN;
@@ -89,6 +90,7 @@ module ReconRingOscCore(
        assign TOPLoopH = Stage12H & LOOPH_EN;
        assign TOPLoopB = Stage12B & LOOPB_EN;
     `endif
+    /* verilator lint_on UNOPTFLAT */
     
     wire Stage1L, Stage1Ln, Stage1H, Stage1B, Stage1Q;
     ConfigCrossover Stage1(D,CLK,RST,Stage1Q,TOPLoopL,TOPLoopH,TOPLoopB,Stage1L,Stage1H,Stage1B);
@@ -193,11 +195,9 @@ module ConfigCrossover(
     input wire LoopL_in, //low speed loop input
     input wire LoopH_in, //high speed loop input
     input wire LoopBy_in, //bypass loop input
-    /* verilator lint_off UNOPTFLAT */
     output wire LoopL_out, //low speed loop output
     output wire LoopH_out, //High speed loop output
     output wire LoopBy_out //bupass loop output 
-    /* verilator lint_on UNOPTFLAT */
 );
     
     wire speed, speedn, bypass, bypassn;
@@ -242,7 +242,7 @@ module Crossover3x3(
     AND3 LBB(LoopBypass_IN, Freq,  Bypass,  LoBiBh);
     AND3 LLB(LoopL_IN,      Freqn, Bypass,  LoLiBh);
     
-    OR4 Lout(LoLiBl,LoHiBl,LoBiBh,LoLiBh,LoopH_OUT); //outputs the low speed loop signal
+    OR4 Lout(LoLiBl,LoHiBl,LoBiBh,LoLiBh,LoopL_OUT); //outputs the low speed loop signal
     
     wire HoLiBl, HoHiBl, HoHiBh, HoBiBh;//High Loop Out, singal In, Bypass State High/Low 
     AND3 HLBn(LoopL_IN,     Freqn, Bypassn, HoLiBl);
@@ -250,7 +250,7 @@ module Crossover3x3(
     AND3 HHB(LoopH_IN,      Freq,  Bypass,  HoHiBh);
     AND3 HBB(LoopBypass_IN, Freqn, Bypass,  HoBiBh);
     
-    OR4 Hout(HoLiBl,HoHiBl,HoHiBh,HoBiBh,LoopL_OUT);//outputs the high speed loop signal
+    OR4 Hout(HoLiBl,HoHiBl,HoHiBh,HoBiBh,LoopH_OUT);//outputs the high speed loop signal
     
     wire BoLi, BoHi; //Bypass Loop Out, singal In
     AND2 BL(LoopL_IN, Freq,  BoLi);
