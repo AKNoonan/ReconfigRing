@@ -42,18 +42,17 @@ async def test_project(dut):
         outpattern = outpattern + bitout
         dut._log.info("Input:output " + bit + ":" + bitout)
 
-    dut._log.info("Input Test Pattern:"+outpattern)
+    dut._log.info("Output Test Pattern:" + outpattern)
+
+    assert testpattern.replace("000000000000000000000000000","") == outpattern.replace("000000000000000000000000000","")
     
     testpattern = "100010000000000000000000000"
-    dut._log.info("Input Config Pattern:"+testpattern)
+    dut._log.info("Loading Config Pattern:"+testpattern)
 
     for b in range(27):
         bit = testpattern[b]
         dut.ui_in.value = int(bit)
         await ClockCycles(dut.clk, 1)
-        await Timer(1, unit="ms")
-        bitout = str(dut.uo_out.value & 1)
-        outpattern.append(bitout)
 
     # Set the input values you want to test
     dut.ui_in.value = 0
