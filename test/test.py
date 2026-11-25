@@ -5,6 +5,8 @@ import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
 from cocotb.triggers import Timer
+from cocotb.triggers import RisingEdge
+from cocotb.utils import get_sim_time
 
 @cocotb.test()
 async def test_project(dut):
@@ -45,6 +47,7 @@ async def test_project(dut):
     dut._log.info("Output Test Pattern:" + outpattern)
 
     assert testpattern.replace("000000000000000000000000000","") == outpattern.replace("000000000000000000000000000","")
+
     
     testpattern = "100010000000000000000000000"
     dut._log.info("Loading Config Pattern:"+testpattern)
@@ -53,6 +56,18 @@ async def test_project(dut):
         bit = testpattern[b]
         dut.ui_in.value = int(bit)
         await ClockCycles(dut.clk, 1)
+
+    dut._log.info("Enabling Rings")
+    dut.ui_in.value[1] = 1
+    dut.ui_in.value[2] = 1
+    dut.ui_in.value[3] = 1
+    dut._log.info("Waiting For Clock Period")
+    await RisingEdge(dut.uo_out.value[1])
+    start = get_sim_time(units="ns")
+    await RisingEdge(dut.uo_out.value[1])
+    end = get_sim_time(units="ns")
+    dut._log.info("Time:" + str(end-start)+"ns")
+    
 
     # Set the input values you want to test
     dut.ui_in.value = 0
