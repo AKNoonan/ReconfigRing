@@ -75,7 +75,7 @@ async def test_project(dut):
 
         loopbitchange = False
         loopcnt = 0
-        while(!loopbitchange):
+        while(not loopbitchange):
             loopcnt = loopcnt + 1
             await ValueChange(dut.uo_out)
             if(dut.uo_out.value[loopnum]==1):
@@ -90,7 +90,7 @@ async def test_project(dut):
 
         loopbitchange = False
         loopcnt = 0
-        while(!loopbitchange):
+        while(not loopbitchange):
             loopcnt = loopcnt + 1
             await ValueChange(dut.uo_out)
             if(dut.uo_out.value[loopnum]==1):
