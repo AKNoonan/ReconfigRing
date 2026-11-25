@@ -242,7 +242,7 @@ module Crossover3x3(
     AND3 LBB(LoopBypass_IN, Freq,  Bypass,  LoBiBh);
     AND3 LLB(LoopL_IN,      Freqn, Bypass,  LoLiBh);
     
-    OR4 Lout(LoLiBl,LoHiBl,LoBiBh,LoLiBh,LoopL_OUT); //outputs the low speed loop signal
+    OR4 Lout(LoLiBl,LoHiBl,LoBiBh,LoLiBh,LoopH_OUT); //outputs the low speed loop signal
     
     wire HoLiBl, HoHiBl, HoHiBh, HoBiBh;//High Loop Out, singal In, Bypass State High/Low 
     AND3 HLBn(LoopL_IN,     Freqn, Bypassn, HoLiBl);
@@ -250,7 +250,7 @@ module Crossover3x3(
     AND3 HHB(LoopH_IN,      Freq,  Bypass,  HoHiBh);
     AND3 HBB(LoopBypass_IN, Freqn, Bypass,  HoBiBh);
     
-    OR4 Hout(HoLiBl,HoHiBl,HoHiBh,HoBiBh,LoopH_OUT);//outputs the high speed loop signal
+    OR4 Hout(HoLiBl,HoHiBl,HoHiBh,HoBiBh,LoopL_OUT);//outputs the high speed loop signal
     
     wire BoLi, BoHi; //Bypass Loop Out, singal In
     AND2 BL(LoopL_IN, Freq,  BoLi);
