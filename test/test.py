@@ -60,9 +60,9 @@ async def test_project(dut):
     dut._log.info("Enabling Rings")
     dut.ui_in.value[1] = 1
     dut._log.info("Waiting For Clock Period")
-    await RisingEdge(dut.uo_out)
+    await ValueChange(dut.uo_out)
     start = get_sim_time(units="ns")
-    await RisingEdge(dut.uo_out)
+    await ValueChange(dut.uo_out)
     end = get_sim_time(units="ns")
     dut._log.info("Time:" + str(end-start)+"ns")
     
