@@ -56,14 +56,15 @@ async def test_project(dut):
     configs = ["100010000000000000000000000","100000001000000000000000000","100000000000100000000000000","100000000000000010000000000","100000000000000000001000000"]
     for testpattern in configs:
         dut._log.info("Loading Config Pattern:"+testpattern)
+        clk.start()
         for b in range(27):
             bit = testpattern[b]
             dut.ui_in.value = int(bit)
             await ClockCycles(dut.clk, 1)
+        clk.stop()
             
         dut._log.info("Enabling Rings")
         dut.ui_in.value[1] = 1
-        dut._log.info("Waiting For Clock Period")
         
         await ValueChange(dut.uo_out)
         dut._log.info("uo_out byte:" + str(dut.uo_out.value))
