@@ -52,7 +52,7 @@ async def test_project(dut):
     #10 00 00 00 00 00 10 00 00 00 00 00 000
     #10 00 00 00 00 00 00 00 10 00 00 00 000
     #10 00 00 00 00 00 00 00 00 00 10 00 000
-    #configs = ["100010000000000000000000000","100000001000000000000000000","100000000000100000000000000","100000000000000010000000000","100000000000000000001000000"]
+    configs = ["100010000000000000000000000","100000001000000000000000000","100000000000100000000000000","100000000000000010000000000","100000000000000000001000000"]
 
     #10 10 00 00 00 00 00 00 00 00 00 00 000
     #10 00 00 10 00 00 00 00 00 00 00 00 000
@@ -60,7 +60,7 @@ async def test_project(dut):
     #10 00 00 00 00 00 00 10 00 00 00 00 000
     #10 00 00 00 00 00 00 00 00 10 00 00 000
     #10 00 00 00 00 00 00 00 00 00 00 10 000
-    configs = ["101000000000000000000000000","100000100000000000000000000","100000000010000000000000000","100000000000001000000000000","100000000000000000100000000","100000000000000000000010000"]
+    #configs = ["101000000000000000000000000","100000100000000000000000000","100000000010000000000000000","100000000000001000000000000","100000000000000000100000000","100000000000000000000010000"]
 
     loopnum = 1; #1 for slow 2 for fast
     for testpattern in configs:
@@ -77,7 +77,7 @@ async def test_project(dut):
         loopcnt = 0
         while(not loopbitchange):
             loopcnt = loopcnt + 1
-            await ValueChange(dut.uo_out)
+            await ValueChange(dut.uo_out[loopnum])
             if(dut.uo_out.value[loopnum]==1):
                 start = get_sim_time(unit="ns")
                 dut._log.info("uo_out byte:" + str(dut.uo_out.value))
@@ -92,7 +92,7 @@ async def test_project(dut):
         loopcnt = 0
         while(not loopbitchange):
             loopcnt = loopcnt + 1
-            await ValueChange(dut.uo_out)
+            await ValueChange(dut.uo_out[loopnum])
             if(dut.uo_out.value[loopnum]==1):
                 end = get_sim_time(unit="ns")
                 dut._log.info("uo_out byte:" + str(dut.uo_out.value))
