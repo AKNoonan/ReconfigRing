@@ -61,29 +61,46 @@ async def test_project(dut):
     #10 00 00 00 00 00 00 00 00 10 00 00 000
     #10 00 00 00 00 00 00 00 00 00 00 10 000
     configs = ["101000000000000000000000000","100000100000000000000000000","100000000010000000000000000","100000000000001000000000000","100000000000000000100000000","100000000000000000000010000"]
-    
+
+    loopnum = 1; #1 for slow 2 for fast
     for testpattern in configs:
         dut._log.info("Loading Config Pattern:"+testpattern)
         for b in range(27):
             bit = testpattern[b]
             dut.ui_in.value = int(bit)
             await ClockCycles(dut.clk, 1)
-        clock.stop()
             
         dut._log.info("Enabling Rings")
-        dut.ui_in.value[1] = 1
+        dut.ui_in.value[loopnum] = 1
+
+        loopbitchange = False
+        loopcnt = 0
+        while(!loopbitchange):
+            loopcnt = loopcnt + 1
+            await ValueChange(dut.uo_out)
+            if(dut.uo_out.value[loopnum]==1):
+                start = get_sim_time(unit="ns")
+                dut._log.info("uo_out byte:" + str(dut.uo_out.value))
+                dut._log.info("loop bit changed at:"+str(start))
+            if(loopcnt%100==0 & loopcnt > 100):
+                dut._log.info("uo_out byte:" + str(dut.uo_out.value))
         
-        await ValueChange(dut.uo_out)
-        dut._log.info("uo_out byte:" + str(dut.uo_out.value))
-        start = get_sim_time(unit="ns")
         
-        await ValueChange(dut.uo_out)
-        dut._log.info("uo_out byte:" + str(dut.uo_out.value))
-        end = get_sim_time(unit="ns")
+
+        loopbitchange = False
+        loopcnt = 0
+        while(!loopbitchange):
+            loopcnt = loopcnt + 1
+            await ValueChange(dut.uo_out)
+            if(dut.uo_out.value[loopnum]==1):
+                end = get_sim_time(unit="ns")
+                dut._log.info("uo_out byte:" + str(dut.uo_out.value))
+                dut._log.info("loop bit changed at:"+str(start))
+            if(loopcnt%100==0 & loopcnt > 100):
+                dut._log.info("uo_out byte:" + str(dut.uo_out.value))
         
         dut._log.info("Time:" + str(end-start)+"ns")
-        dut.ui_in.value[1] = 0
-        clock.start()
+        dut.ui_in.value[loopnum] = 0
     
 
     # Set the input values you want to test
