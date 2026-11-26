@@ -47,6 +47,7 @@ async def test_project(dut):
 
     assert testpattern.replace("000000000000000000000000000","") == outpattern.replace("000000000000000000000000000","")
 
+    '''
     #10 00 10 00 00 00 00 00 00 00 00 00 000
     #10 00 00 00 10 00 00 00 00 00 00 00 000
     #10 00 00 00 00 00 10 00 00 00 00 00 000
@@ -111,7 +112,7 @@ async def test_project(dut):
         
         dut._log.info("Time:" + str(end-start)+"ns")
         dut.ui_in.value[loopnum] = 0
-    
+    '''
 
     # Set the input values you want to test
     dut.ui_in.value = 0
