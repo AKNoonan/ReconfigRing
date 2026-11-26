@@ -121,7 +121,7 @@ async def test_project(dut):
         dut.ui_in.value[3] = 0
 
     dut._log.info("\nPrinting Loop Speeds at CFGs")
-    for i in range(len(testpattern-1)):
+    for i in range(len(testpattern)-1):
         dut._log.info("Bitstream:" + configs[i])
         dut._log.info("Period:" + str(speeds[i]) + "ns")
 
