@@ -71,9 +71,10 @@ async def test_project(dut):
 
     configs = ["101000000000000000000000000","100000100000000000000000000","100000000010000000000000000","100000000000001000000000000","100000000000000000100000000","100000000000000000000010000"]
     #configs = ["000010101010101010101010000","001010001010101010101010000","001010101000101010101010000","001010101010100010101010000","001010101010101010001010000","001010101010101010101000000"]
-    
+
+    speeds = []
     for testpattern in configs:
-        dut._log.info("Loading Config Pattern:"+testpattern)
+        dut._log.info("\nLoading Config Pattern:"+testpattern)
         for b in range(27):
             bit = testpattern[b]
             dut.ui_in.value = int(bit)
@@ -95,8 +96,7 @@ async def test_project(dut):
                 dut._log.info("loop bit changed at:"+str(start))
                 loopbitchange = True
             if(loopcnt%100==0 & loopcnt > 100):
-                dut._log.info("uo_out byte:" + str(dut.uo_out.value))
-        
+                dut._log.info("uo_out byte:" + str(dut.uo_out.value))        
         
 
         loopbitchange = False
@@ -112,13 +112,21 @@ async def test_project(dut):
             if(loopcnt%100==0 & loopcnt > 100):
                 dut._log.info("uo_out byte:" + str(dut.uo_out.value))
         
-        dut._log.info("Time:" + str(end-start)+"ns")
+        dut._log.info("Loop Period:" + str(end-start)+"ns")
+        speeds.append(end-start)
 
         dut._log.info("Disabling Rings")
         dut.ui_in.value[1] = 0
         dut.ui_in.value[2] = 0
         dut.ui_in.value[3] = 0
-    
+
+    for i in range(len(testpattern)):
+        dut._log.info("Bitstream:" + configs[i])
+        dut._log.info("Period:" + str(speeds[i]) + "ns")
+
+    for i in range(len(testpattern)-1):
+        assert speeds[i+1] > speeds[i]
+        
 
     # Set the input values you want to test
     dut.ui_in.value = 0
