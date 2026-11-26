@@ -90,6 +90,7 @@ async def test_project(dut):
         while(not loopbitchange):
             loopcnt = loopcnt + 1
             await ValueChange(dut.uo_out)
+            dut._log.info("uo_out byte:" + str(dut.uo_out.value))
             if(dut.uo_out.value[0]==1):
                 start = get_sim_time(unit="ns")
                 dut._log.info("uo_out byte:" + str(dut.uo_out.value))
@@ -104,6 +105,7 @@ async def test_project(dut):
         while(not loopbitchange):
             loopcnt = loopcnt + 1
             await ValueChange(dut.uo_out)
+            dut._log.info("uo_out byte:" + str(dut.uo_out.value))
             if(dut.uo_out.value[0]==1):
                 end = get_sim_time(unit="ns")
                 dut._log.info("uo_out byte:" + str(dut.uo_out.value))
