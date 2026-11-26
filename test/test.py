@@ -120,10 +120,12 @@ async def test_project(dut):
         dut.ui_in.value[2] = 0
         dut.ui_in.value[3] = 0
 
-    for i in range(len(testpattern)):
+    dut._log.info("\nPrinting Loop Speeds at CFGs")
+    for i in range(len(testpattern-1)):
         dut._log.info("Bitstream:" + configs[i])
         dut._log.info("Period:" + str(speeds[i]) + "ns")
 
+    dut._log.info("\nVerifying CFG behavior")
     for i in range(len(testpattern)-1):
         assert speeds[i+1] > speeds[i]
         
