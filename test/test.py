@@ -47,7 +47,7 @@ async def test_project(dut):
 
     assert testpattern.replace("000000000000000000000000000","") == outpattern.replace("000000000000000000000000000","")
 
-    '''
+    
     #10 00 10 00 00 00 00 00 00 00 00 00 000
     #10 00 00 00 10 00 00 00 00 00 00 00 000
     #10 00 00 00 00 00 10 00 00 00 00 00 000
@@ -69,9 +69,9 @@ async def test_project(dut):
     #00 10 10 10 10 10 10 10 10 00 10 10 000
     #00 10 10 10 10 10 10 10 10 10 10 00 000
 
-    #configs = ["101000000000000000000000000","100000100000000000000000000","100000000010000000000000000","100000000000001000000000000","100000000000000000100000000","100000000000000000000010000"]
-    configs = ["000010101010101010101010000","001010001010101010101010000","001010101000101010101010000","001010101010100010101010000","001010101010101010001010000","001010101010101010101000000"]
-    loopnum = 1; #1 for slow 2 for fast
+    configs = ["101000000000000000000000000","100000100000000000000000000","100000000010000000000000000","100000000000001000000000000","100000000000000000100000000","100000000000000000000010000"]
+    #configs = ["000010101010101010101010000","001010001010101010101010000","001010101000101010101010000","001010101010100010101010000","001010101010101010001010000","001010101010101010101000000"]
+    
     for testpattern in configs:
         dut._log.info("Loading Config Pattern:"+testpattern)
         for b in range(27):
@@ -80,7 +80,9 @@ async def test_project(dut):
             await ClockCycles(dut.clk, 1)
             
         dut._log.info("Enabling Rings")
-        dut.ui_in.value[loopnum] = 1
+        dut.ui_in.value[1] = 1
+        dut.ui_in.value[2] = 1
+        dut.ui_in.value[3] = 1
 
         loopbitchange = False
         loopcnt = 0
@@ -111,8 +113,12 @@ async def test_project(dut):
                 dut._log.info("uo_out byte:" + str(dut.uo_out.value))
         
         dut._log.info("Time:" + str(end-start)+"ns")
-        dut.ui_in.value[loopnum] = 0
-    '''
+
+        dut._log.info("Disabling Rings")
+        dut.ui_in.value[1] = 0
+        dut.ui_in.value[2] = 0
+        dut.ui_in.value[3] = 0
+    
 
     # Set the input values you want to test
     dut.ui_in.value = 0
